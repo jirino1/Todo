@@ -15,19 +15,22 @@ class TodoList extends Component {
     const { list } = this.props.todos;
 
     return (
-      <ol>
-        {list.map(todo => {
+        list.map(todo => {
           return (
-            <li key={todo.id}>
-              <Link to={`/todos/${todo.id}`}>
-                {todo.id} {todo.name}
-              </Link>
-            </li>
-          );
-        })}
-      </ol>
+            <div>
+            <div class="ui left labeled button" tabindex="0">
+              <a class="ui basic right pointing label">
+              {todo.name}
+              </a>
+              <div class="ui button" onClick={() => {}}>
+                 Done
+              </div>
+            </div>
+            </div>
+          )
+        })
     );
-  }
+      }
 
   render() {
     console.log(this.props);
@@ -55,6 +58,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   getTodos: getTodos,
+  
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
