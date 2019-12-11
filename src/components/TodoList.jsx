@@ -19,7 +19,8 @@ class TodoList extends Component {
   }
 }
  renderTodos(props) {
-  return props.todos.map((todo) => (
+   let todos = props.todos.todos;
+  return todos.map( todo => (
   <Todo todo = {todo} />
   ))
 }
