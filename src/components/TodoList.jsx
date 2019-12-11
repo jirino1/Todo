@@ -11,18 +11,15 @@ class TodoList extends Component {
 
   render() {
     console.log(this.props);
-    if(this.props.todos === null || this.props.todos === undefined) {
+    if(this.props.todos.todos === null || this.props.todos.todos === undefined) {
       return <div> Loading List... </div>
     }
-    else{ 
       return this.renderTodos(this.props);
-  }
 }
  renderTodos(props) {
-   let todos = props.todos.todos;
-  return todos.map( todo => (
-  <Todo todo = {todo} />
-  ))
+  return props.todos.todos.map( todo => {
+  return <Todo todo = {todo} />
+  })
 }
 }
 const mapStateToProps = state => {

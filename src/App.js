@@ -12,7 +12,7 @@ function App() {
       <Route path="/" exact component={TodoList}/>
       <Route path="/todos/:id"component = {Todo} />} />
       <Route path="/todos/:id/edit" component={TodoForm} />
-    </BrowserRouter>
+    </BrowserRouter> 
   );
 }
 
