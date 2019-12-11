@@ -9,10 +9,10 @@ import TodoForm from './components/TodoForm';
 function App() {
   return (
     <BrowserRouter >
-      <Route path="/" exact component={TodoList}/>
-      <Route path="/todos/:id"component = {Todo} />} />
+      <Route path="/" exact component={TodoList} />
+      <Route path="/todos/:id" exact component={Todo} />
       <Route path="/todos/:id/edit" component={TodoForm} />
-    </BrowserRouter> 
+    </BrowserRouter>
   );
 }
 

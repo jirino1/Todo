@@ -1,39 +1,51 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import { getTodo } from '../actions';
+import { getTodo, getTodos } from '../actions';
+
 class Todo extends Component {
-  componentDidMount() {
+  async componentDidMount() {
+    if (this.props.todos.list === null) {
+      await this.props.getTodos();
+    }
+
     // Hier wird die Action ausgelöst,
     // die das To-Do lädt
-    //console.log(this.props.match.params)
-    var id = parseInt(this.props.match.params.id);
-    console.log(id);
+    const { id } = this.props.match.params;
     this.props.getTodo(id);
-    //console.log('Lade Todo mit ID ' + id);
   }
 
   render() {
-    if (this.props.todo === null || this.props.todo === undefined) {
+    const { todo } = this.props.todos;
+
+    if (todo === null) {
       return <div>Loading...</div>;
     }
 
-    return <div>
-      <div>{this.props.todo.id}</div>
-      <div>{this.props.todo.title}</div>
-    </div>;
+    console.log(todo);
+
+    return (
+      <div>
+        <h1>Ein einfaches Todo</h1>
+        <p>{todo.name}</p>
+        <p>{todo.done ? "fertig" : "muss noch"}</p>
+
+        <Link to={`/`}>Zurück zur Liste</Link>
+      </div>
+    );
   }
 }
 
-const mapStateToProps = (state) => {
-  
-  console.log(state.todo);
+const mapStateToProps = state => {
   return {
-    todo: state.todo
-  }
-}
+    todos: state.todos,
+  };
+};
+
 const mapDispatchToProps = {
   getTodo: getTodo,
+  getTodos: getTodos,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Todo);
