@@ -58,7 +58,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   getTodos: getTodos,
-  
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
