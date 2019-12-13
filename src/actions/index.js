@@ -27,6 +27,9 @@ export const createTodo = (todo) => {
 
 }
 
-export const markDone = (id) => {
-
+export const markDone = (id) => async dispatch =>{
+  dispatch({
+    type: 'MARK_DONE',
+    payload: id
+  })
 }

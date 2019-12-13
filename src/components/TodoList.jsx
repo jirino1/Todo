@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom'
-import { getTodos } from '../actions';
+import { getTodos, markDone } from '../actions';
+import { Link } from 'react-router-dom';
 
 class TodoList extends Component {
+  constructor(props) {
+    super(props);
+    this.toggleDone = this.toggleDone.bind(this);
+  }
   componentDidMount() {
     // TODO: Nur Laden wenn noch nicht vorhanden
     if (this.props.todos.list === null) {
@@ -13,27 +17,49 @@ class TodoList extends Component {
 
   renderTodos() {
     const { list } = this.props.todos;
-
-    return (
+      return (
         list.map(todo => {
-          return (
-            <div>
-            <div class="ui left labeled button" tabindex="0">
-              <a class="ui basic right pointing label">
+          console.log(todo);
+          if(todo.done) {
+            return (
+            <div style = {{paddingBottom: '10px', paddingLeft:'10px'}} key={todo.id} >
+            <div className="ui left labeled button" tabIndex="0">
+              <Link className="ui basic right pointing label" to={`/todos/${todo.id}`}>
               {todo.name}
-              </a>
-              <div class="ui button" onClick={() => {}}>
+              </Link>
+              <div style = {{backgroundColor:'grey', color:'white'}} className="ui button" id={todo.id} onClick={this.toggleDone}>
                  Done
               </div>
             </div>
             </div>
           )
+            }
+          else {
+            return (
+              <div style = {{paddingBottom: '10px', paddingLeft:'10px'}} key={todo.id} >
+              <div className="ui left labeled button" tabIndex="0">
+                <Link className="ui basic right pointing label" to={`/todos/${todo.id}`}>
+                {todo.name}
+                </Link>
+                <div className="ui button" id={todo.id} onClick={this.toggleDone}>
+                   Done
+                </div>
+              </div>
+              </div>
+            )
+          }
         })
+      
     );
       }
+    
+    async toggleDone(event) {
+      const id = event.target.id;
+      await this.props.markDone(id);
+    }
 
   render() {
-    console.log(this.props);
+    //console.log(this.props);
 
     const { list } = this.props.todos;
 
@@ -43,7 +69,7 @@ class TodoList extends Component {
 
     return (
       <div>
-        <h1>Liste der To-Dos</h1>
+        <h1 style={{paddingLeft:'10px'}}>Liste der To-Dos</h1>
         {this.renderTodos()}
       </div>
     );
@@ -51,13 +77,14 @@ class TodoList extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
+  //console.log(state);
 
   return { todos: state.todos };
 };
 
 const mapDispatchToProps = {
   getTodos: getTodos,
+  markDone: markDone,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
