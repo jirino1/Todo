@@ -23,8 +23,11 @@ export const getTodo = (id) => async dispatch => {
   })
 }
 
-export const createTodo = (todo) => {
-
+export const createTodo = (todo) => async dispatch => {
+  dispatch({
+    type: 'CREATE_TODO',
+    payload: todo
+  })
 }
 
 export const markDone = (id) => async dispatch =>{

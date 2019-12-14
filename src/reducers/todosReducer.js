@@ -23,6 +23,21 @@ export default (state = initialState, action) => {
         todo2.done = true;
       }
       return { ...state, todo:todo2};
+    case 'CREATE_TODO':
+      const idNew = 0;
+      state.list.map(todo => {
+        if(todo.id > idNew) {
+          idNew+=1;
+        }
+      })
+        const newList = [];
+        for(let i = 0; i<state.list.length+1;) {
+            if(i<idNew) {
+            newList[i] = state.list[i]
+            }
+            else newList[i] = action.payload;
+          }
+        return { ...state, list:newList}
 
     default:
       return state;
