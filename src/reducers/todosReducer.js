@@ -24,18 +24,19 @@ export default (state = initialState, action) => {
       }
       return { ...state, todo:todo2};
     case 'CREATE_TODO':
-      const idNew = 0;
-      state.list.map(todo => {
-        if(todo.id > idNew) {
-          idNew+=1;
+      let idNew = 0;
+      for(let i = 0; i<state.list.length; i++) {
+        if(idNew<state.list[i].id) {
+          idNew = state.list[i].id
         }
-      })
-        const newList = [];
+      }
+        let newList = [];
+        const newTodo = {...action.payload, id:idNew};
         for(let i = 0; i<state.list.length+1;) {
             if(i<idNew) {
             newList[i] = state.list[i]
             }
-            else newList[i] = action.payload;
+            else newList[i] = newTodo;
           }
         return { ...state, list:newList}
 
