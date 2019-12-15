@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getTodos, markDone } from '../actions';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 class TodoList extends Component {
   constructor(props) {
     super(props);
     this.toggleDone = this.toggleDone.bind(this);
+    this.state={redirect:false};
   }
   componentDidMount() {
     // TODO: Nur Laden wenn noch nicht vorhanden
@@ -19,13 +20,12 @@ class TodoList extends Component {
     const { list } = this.props.todos;
       return (
         list.map(todo => {
-          console.log(todo);
-          if(todo.done) {
+          if(todo.completed) {
             return (
             <div style = {{paddingBottom: '10px', paddingLeft:'10px'}} key={todo.id} >
             <div className="ui left labeled button" tabIndex="0">
               <Link className="ui basic right pointing label" to={`/todos/${todo.id}`}>
-              {todo.name}
+              {todo.title}
               </Link>
               <div style = {{backgroundColor:'grey', color:'white'}} className="ui button" id={todo.id} onClick={this.toggleDone}>
                  Done
@@ -39,7 +39,7 @@ class TodoList extends Component {
               <div style = {{paddingBottom: '10px', paddingLeft:'10px'}} key={todo.id} >
               <div className="ui left labeled button" tabIndex="0">
                 <Link className="ui basic right pointing label" to={`/todos/${todo.id}`}>
-                {todo.name}
+                {todo.title}
                 </Link>
                 <div className="ui button" id={todo.id} onClick={this.toggleDone}>
                    Done
@@ -66,10 +66,15 @@ class TodoList extends Component {
     if (list === null) {
       return <div>Loading...</div>;
     }
+    if(this.state.redirect){
+      return <Redirect to='/newTodo'/>
+    }
 
     return (
       <div>
-        <h1 style={{paddingLeft:'10px'}}>Liste der To-Dos</h1>
+        <h1 style={{paddingLeft:'10px'}}>Liste der To-Dos
+          <div className="ui button" style={{margin:'10px'}} onClick={()=>{this.setState({redirect:true})}}>Neues Todo</div>
+        </h1>
         {this.renderTodos()}
       </div>
     );

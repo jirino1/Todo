@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import { getTodo, getTodos } from '../actions';
 
 class Todo extends Component {
+  constructor(props){
+    super(props);
+    this.state={redirect:false}
+  }
   async componentDidMount() {
     if (this.props.todos.list === null) {
       await this.props.getTodos();
@@ -18,20 +22,21 @@ class Todo extends Component {
 
   render() {
     const { todo } = this.props.todos;
+    if(this.state.redirect){
+      return <Redirect to='/'/>
+    }
 
     if (todo === null) {
       return <div>Loading...</div>;
     }
 
-    console.log(todo);
-
     return (
       <div>
-        <h1>Ein einfaches Todo</h1>
-        <p>{todo.name}</p>
-        <p>{todo.done ? "fertig" : "muss noch"}</p>
-
-        <Link to={`/`}>Zurück zur Liste</Link>
+        <div className="ui header">
+          {todo.title}
+          <div className="ui label">{todo.completed ? "erledigt" : "noch nicht erledigt"}</div>
+        </div>
+        <div className="ui button" style={{margin:'10px'}} onClick={()=>{this.setState({redirect:true})}}>Zurück zur Liste</div>
       </div>
     );
   }
