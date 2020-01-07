@@ -10,6 +10,12 @@ export const getTodos = () => async dispatch => {
     payload: response
   });
 }
+export const deleteTodo = id => async dispatch => {
+  dispatch({
+    type: 'DELETE_TODO',
+    payload: id
+  })
+}
 
 export const getTodo = (id) => async dispatch => {
   dispatch({

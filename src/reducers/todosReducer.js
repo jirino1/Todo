@@ -35,7 +35,15 @@ export default (state = initialState, action) => {
         let newList = state.list;
         newList.push(newTodo);
         return { ...state, list:newList}
-
+    case 'DELETE_TODO':
+      let newList2 = [];
+      for(let i = 0; i<state.list.length; i++) {
+        if(state.list[i].id != parseInt(action.payload)) {
+          newList2.push(state.list[i])
+        }
+      }
+      return {...state, list:newList2}
+    
     default:
       return state;
   }
